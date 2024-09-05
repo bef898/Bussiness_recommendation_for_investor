@@ -13,15 +13,23 @@ class DataProcessor:
         print("Data loaded successfully.")
         return self.data
     
-    def clean_data(self):
-        """Clean the dataset by filling or dropping missing values and handling duplicates."""
-        if self.data is not None:
-            self.data.dropna(subset=['IMSI', 'MSISDN/Number'], inplace=True)
-            self.data.fillna(0, inplace=True)
-            self.data.drop_duplicates(inplace=True)
-            print("Data cleaned successfully.")
-        else:
-            raise ValueError("No data loaded. Please call load_data() first.")
+def clean_data(self):
+    """Clean the dataset by filling or replacing missing values and handling duplicates."""
+    if self.data is not None:
+        # Replace missing values in specific columns (IMSI, MSISDN/Number) with 0
+        self.data['IMSI'].fillna(0, inplace=True)
+        self.data['MSISDN/Number'].fillna(0, inplace=True)
+
+        # Replace missing values in all other columns with 0 (or any other appropriate value)
+        self.data.fillna(0, inplace=True)
+        
+        # Remove any duplicate rows
+        self.data.drop_duplicates(inplace=True)
+        
+        print("Data cleaned successfully.")
+    else:
+        raise ValueError("No data loaded. Please call load_data() first.")
+
     
     def transform_data(self):
         """Transform the dataset by creating new features and modifying existing ones."""
@@ -33,15 +41,7 @@ class DataProcessor:
         else:
             raise ValueError("No data loaded. Please call load_data() first.")
     
-    def format_data(self):
-        """Format the dataset for final output."""
-        if self.data is not None:
-            columns_to_keep = ['Bearer Id', 'Start', 'End', 'IMSI', 'MSISDN/Number', 'Duration (seconds)', 'Total DL (Bytes)', 'Total UL (Bytes)']
-            self.data = self.data[columns_to_keep]
-            print("Data formatted successfully.")
-        else:
-            raise ValueError("No data loaded. Please call load_data() first.")
-    
+     
     def get_data(self):
         """Return the processed data."""
         return self.data
