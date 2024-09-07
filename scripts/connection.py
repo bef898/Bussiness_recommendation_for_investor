@@ -38,19 +38,7 @@ class PostgresConnection:
         if self.conn is not None:
             self.conn.close()
             print("Connection closed.")
+            
 
 # Example usage:
 # Replace dbname, user, password with your actual database credentials
-db = PostgresConnection(dbname='telecom', user='postgres', password='1864')
-db.connect()
-
-# Example query
-query = "SELECT * FROM xdr_data"
-result = db.execute_query(query)
-
-# Convert the result to a Pandas DataFrame
-df = pd.DataFrame(result, columns=[desc[0] for desc in db.cursor.description])
-print(df.head())  # Display the first few rows of the DataFrame
-
-# Close the connection when done
-db.close_connection()
